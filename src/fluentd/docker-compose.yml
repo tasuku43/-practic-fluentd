@@ -1,0 +1,10 @@
+version: '3.2'
+
+services:
+  fluentd:
+    container_name: http_fluentd
+    image: fluent/fluentd:edge-debian
+    volumes:
+      - ./fluentd/etc/fluent.conf:/fluentd/etc/fluent.conf
+    ports:
+      - 9880:9880

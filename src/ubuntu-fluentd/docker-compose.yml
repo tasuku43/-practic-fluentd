@@ -1,0 +1,21 @@
+version: '3.2'
+
+services:
+  ubuntu:
+    container_name: ubuntu
+    image: ubuntu
+    links:
+        - fluentd
+    logging:
+      driver: "fluentd"
+      options:
+        fluentd-address: "localhost:24224"
+        fluentd-async-connect: "true"
+    command: echo "Hello world"
+  fluentd:
+    container_name: fluentd
+    image: fluent/fluentd:edge-debian
+    volumes:
+      - ./fluentd/etc/fluent.conf:/fluentd/etc/fluent.conf
+    ports:
+      - 24224:24224

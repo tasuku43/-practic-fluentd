@@ -1,0 +1,23 @@
+version: '3.2'
+
+services:
+  fluentd-receiver:
+    container_name: fluentd-receiver
+    image: fluent/fluentd:edge-debian
+    volumes:
+      - ./fluentd/receiver/etc/receiver_tail_file.conf:/fluentd/etc/receiver_tail_file.conf
+      - ./fluentd/receiver/tmp/log:/tmp/log
+    environment:
+      FLUENTD_CONF: receiver_tail_file.conf
+    ports:
+      - 24224:24224
+  fluentd-sender:
+    container_name: fluentd-sender
+    image: fluent/fluentd:edge-debian
+    volumes:
+      - ./fluentd/sender/etc/sender_tail_file.conf:/fluentd/etc/sender_tail_file.conf
+      - ./fluentd/sender/tmp/log:/tmp/log
+    environment:
+      FLUENTD_CONF: sender_tail_file.conf
+    links:
+      - fluentd-receiver
